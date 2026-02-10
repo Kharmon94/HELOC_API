@@ -1,0 +1,9 @@
+# Railway config for HELOC API (separate repo deploy)
+# Root Directory: empty (repo root is the API)
+
+[build]
+builder = "docker"
+
+[deploy]
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
