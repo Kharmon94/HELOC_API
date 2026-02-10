@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  rescue_from CanCanCan::AccessDenied do |e|
+  rescue_from CanCan::AccessDenied do |e|
     render json: { error: "Access denied", message: e.message }, status: :forbidden
   end
 
