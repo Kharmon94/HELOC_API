@@ -1,0 +1,15 @@
+Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  namespace :api do
+    namespace :v1 do
+      post "auth/sign_in", to: "auth#sign_in"
+      post "auth/sign_up", to: "auth#sign_up"
+      get "auth/me", to: "auth#me"
+      resources :users, only: %i[index show update], constraints: { id: /[0-9]+/ }
+      namespace :admin do
+        get "dashboard", to: "dashboard#index"
+      end
+    end
+  end
+end
