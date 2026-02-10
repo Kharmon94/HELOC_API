@@ -21,21 +21,44 @@ test:
   database: storage/test.sqlite3
 
 
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
+# Production: use DATABASE_URL (Postgres) when set (e.g. Railway), else SQLite in storage/
 production:
   primary:
+    <% if ENV["DATABASE_URL"].present? %>
+    url: <%= ENV["DATABASE_URL"] %>
+    <% else %>
     <<: *default
     database: storage/production.sqlite3
+    <% end %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
   cache:
+    <% if ENV["DATABASE_URL"].present? %>
+    url: <%= ENV["DATABASE_URL"] %>
+    <% else %>
     <<: *default
     database: storage/production_cache.sqlite3
+    <% end %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
     migrations_paths: db/cache_migrate
   queue:
+    <% if ENV["DATABASE_URL"].present? %>
+    url: <%= ENV["DATABASE_URL"] %>
+    <% else %>
     <<: *default
     database: storage/production_queue.sqlite3
+    <% end %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
     migrations_paths: db/queue_migrate
   cable:
+    <% if ENV["DATABASE_URL"].present? %>
+    url: <%= ENV["DATABASE_URL"] %>
+    <% else %>
     <<: *default
     database: storage/production_cable.sqlite3
+    <% end %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
     migrations_paths: db/cable_migrate
