@@ -1,8 +1,6 @@
 # Railway config for HELOC API (separate repo deploy)
 # Root Directory: empty (repo root is the API)
-
-[build]
-builder = "docker"
+# Railway auto-detects Dockerfile when present; no builder needed.
 
 [deploy]
 restartPolicyType = "on_failure"
