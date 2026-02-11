@@ -2,6 +2,18 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
+# Seed an admin user (change email/password in production or use env vars)
+admin_email = ENV.fetch("SEED_ADMIN_EMAIL", "admin@example.com")
+admin_password = ENV.fetch("SEED_ADMIN_PASSWORD", "changeme123")
+admin = User.find_or_initialize_by(email: admin_email)
+if admin.new_record?
+  admin.password = admin_password
+  admin.password_confirmation = admin_password
+  admin.confirmed_at = Time.current
+end
+admin.admin = true
+admin.save!
+
 partners_data = [
   {
     name: "Figure",
