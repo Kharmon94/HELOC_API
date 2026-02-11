@@ -51,11 +51,7 @@ Rails.application.configure do
     config.cache_store = :solid_cache_store
   end
 
-  # Action Cable: use Redis when REDIS_URL is set so multiple instances share pub/sub.
-  if ENV["REDIS_URL"].present?
-    config.action_cable.adapter = :redis
-    config.action_cable.url = ENV["REDIS_URL"]
-  end
+  # Action Cable: adapter and url are set in config/cable.yml via ERB (Redis when REDIS_URL is set).
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
