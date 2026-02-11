@@ -7,8 +7,10 @@ Rails.application.routes.draw do
       post "auth/sign_up", to: "auth#sign_up"
       get "auth/me", to: "auth#me"
       resources :users, only: %i[index show update], constraints: { id: /[0-9]+/ }
+      resources :partners, only: %i[index]
       namespace :admin do
         get "dashboard", to: "dashboard#index"
+        resources :partners
       end
     end
   end

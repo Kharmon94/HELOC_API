@@ -8,7 +8,12 @@ module Api
         before_action :require_admin!
 
         def index
-          render json: { message: "Admin dashboard", user_id: current_user.id }
+          render json: {
+            message: "Admin dashboard",
+            user_id: current_user.id,
+            users_count: User.count,
+            suspended_count: User.where(suspended: true).count
+          }
         end
       end
     end

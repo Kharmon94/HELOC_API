@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_000001) do
+  create_table "partners", force: :cascade do |t|
+    t.string "name", null: false
+    t.decimal "rating", precision: 3, scale: 2
+    t.string "min_loan"
+    t.string "max_loan"
+    t.string "apr_from"
+    t.string "url"
+    t.string "best_for"
+    t.text "features"
+    t.string "why_matched"
+    t.text "credit_tier"
+    t.text "specialties"
+    t.integer "match_score"
+    t.integer "position", default: 0, null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_partners_on_active"
+    t.index ["name"], name: "index_partners_on_name"
+    t.index ["position"], name: "index_partners_on_position"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
