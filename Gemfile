@@ -5,7 +5,7 @@ gem "rails", "8.0.3"
 # Use sqlite3 as the database for Active Record (development/test)
 gem "sqlite3", ">= 2.1"
 # Use pg for production when DATABASE_URL is set (e.g. Railway Postgres)
-gem "pg", "~> 1.5", group: :production
+gem "pg", group: :production
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -21,6 +21,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
+# Redis for cache and Action Cable when REDIS_URL is set (e.g. Railway)
+gem "redis"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false

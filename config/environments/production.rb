@@ -44,7 +44,18 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # Use Redis when REDIS_URL is set (e.g. Railway); otherwise Solid Cache.
+  if ENV["REDIS_URL"].present?
+    config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL"] }
+  else
+    config.cache_store = :solid_cache_store
+  end
+
+  # Action Cable: use Redis when REDIS_URL is set so multiple instances share pub/sub.
+  if ENV["REDIS_URL"].present?
+    config.action_cable.adapter = :redis
+    config.action_cable.url = ENV["REDIS_URL"]
+  end
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
