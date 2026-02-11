@@ -22,6 +22,8 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 # Redis for cache and Action Cable when REDIS_URL is set (e.g. Railway)
+# Pin connection_pool to 2.x: 3.x has a Ruby 3.3 SyntaxError (anonymous keyword rest in block)
+gem "connection_pool", "~> 2.5"
 gem "redis"
 
 # Reduces boot times through caching; required in config/boot.rb
