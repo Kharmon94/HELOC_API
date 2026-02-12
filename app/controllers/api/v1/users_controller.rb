@@ -13,6 +13,17 @@ module Api
         render json: { user: user_json(@user) }
       end
 
+      def create
+        @user = User.new(create_user_params)
+        @user.admin = true if current_user.admin?
+        @user.skip_confirmation! if @user.respond_to?(:skip_confirmation!)
+        if @user.save
+          render json: { user: user_json(@user) }, status: :created
+        else
+          render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       def update
         if current_user.admin? && @user.id == current_user.id && disallowed_self_update?
           return render json: { error: "Cannot change your own admin or suspended status" }, status: :forbidden
@@ -29,6 +40,10 @@ module Api
       def disallowed_self_update?
         u = params[:user]
         u.is_a?(ActionController::Parameters) && (u.key?(:admin) || u.key?(:suspended))
+      end
+
+      def create_user_params
+        params.require(:user).permit(:email, :password, :password_confirmation, :admin)
       end
 
       def user_params
